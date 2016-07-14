@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializeData();
+        persons = new ArrayList<>();
+        persons.add(new Person("Emma Wilson", "23 years old", "Marrakech"));
+        persons.add(new Person("Lavery Maiss", "25 years old", "Casablanca"));
+        persons.add(new Person("Lillie Watts", "35 years old", "Agadir"));
 
         recyclerView = (RecyclerView) findViewById(R.id.rv);
+        recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -42,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
-        List<Person> persons;
+        List<Person> personsList;
 
         RVAdapter(List<Person> persons){
-            this.persons = persons;
+            personsList = persons;
         }
 
         @Override
@@ -57,12 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(PersonViewHolder holder, int position) {
+            holder.personName.setText(personsList.get(position).getName());
+            holder.personAge.setText(personsList.get(position).getAge());
+            holder.personCity.setText(personsList.get(position).getCity());
+        }
 
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return personsList.size();
         }
 
         public class PersonViewHolder extends RecyclerView.ViewHolder {
